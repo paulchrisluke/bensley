@@ -1,6 +1,6 @@
 {
-"companyName": "DefaultCompany",
-"productName": "Worldspinner",
+"companyName": "whynot.earth",
+"productName": "bensley.com cconcept",
 "productVersion": "0.1",
 "dataUrl": "WebGL.data.unityweb",
 "wasmCodeUrl": "WebGL.wasm.code.unityweb",
@@ -8,7 +8,7 @@
 "graphicsAPI": ["WebGL 2.0","WebGL 1.0"],
 "webglContextAttributes": {"preserveDrawingBuffer": false},
 "splashScreenStyle": "Dark",
-"backgroundColor": "#800020",
+"backgroundColor": "#ECE4CD",
 "cacheControl": {"default": "must-revalidate"},
 "developmentBuild": false,
 "multithreading": false,
