@@ -12,6 +12,7 @@ launch? (will update)
 ## Preview URL
 [![Netlify Status](https://api.netlify.com/api/v1/badges/0329703a-a606-4a04-9005-359d389a2e3e/deploy-status)](https://app.netlify.com/sites/hardcore-swartz-cf36a4/deploys)
 
+![image](https://user-images.githubusercontent.com/5694308/67918796-6eab4c00-fbd0-11e9-8ae0-4daf5ae9dcc8.png)
 Demo: https://hardcore-swartz-cf36a4.netlify.com/
 
 ## Design File:
