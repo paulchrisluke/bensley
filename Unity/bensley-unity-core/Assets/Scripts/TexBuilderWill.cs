@@ -12,7 +12,9 @@ using System.IO;
 
 public class TexBuilderWill : MonoBehaviour
 {
-
+    [SerializeField] private GameObject assetBundleLoaderPrefab;
+    private GameObject assetBundleLoaderObject;
+    private AssetBundleLoader assetBundleLoader;
     public List<Texture2D> sourceTextures;
     public int srcX;
     public int srcY;
@@ -45,6 +47,9 @@ public class TexBuilderWill : MonoBehaviour
 
     async void Start()
     {
+        assetBundleLoaderObject = Instantiate(assetBundleLoaderPrefab);
+        assetBundleLoader = assetBundleLoaderObject.GetComponent<AssetBundleLoader>();
+        assetBundleLoader.Setup();
         cam = Camera.main;
 
         ApiImage[] apiImages = await GetImageList();
