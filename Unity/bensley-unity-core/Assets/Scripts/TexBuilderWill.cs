@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using System.Linq;
 using System.Text;
 using UnityEngine.Networking;
+using System.IO;
 
 public class TexBuilderWill : MonoBehaviour
 {
@@ -46,7 +47,7 @@ public class TexBuilderWill : MonoBehaviour
     {
         cam = Camera.main;
 
-        var apiImages = await GetImageList();
+        ApiImage[] apiImages = await GetImageList();
         FileAddress.AddRange(apiImages);
         if (FileAddress.Count < ImagesToLoad)
         {
@@ -66,6 +67,19 @@ public class TexBuilderWill : MonoBehaviour
         var textures = await Task.WhenAll(FileAddress.Select(f => LoadPNG(f.Url)));
         sourceTextures.AddRange(textures);
     }
+    private void PrintBigFilePaths() {
+        Directory.GetFiles("Assets");
+    }
+    private async Task<byte[]> GetImage(string url)
+    {
+        using (var webRequest = new UnityWebRequest(url))
+        {
+            webRequest.method = UnityWebRequest.kHttpVerbGET;
+            webRequest.downloadHandler = new DownloadHandlerBuffer();
+            await webRequest.SendWebRequest();
+            return webRequest.downloadHandler.data;
+        }
+    }
 
     private async Task<ApiImage[]> GetImageList()
     {
@@ -78,41 +92,30 @@ public class TexBuilderWill : MonoBehaviour
             {
                 Debug.LogError("NOT ACTUALLY DONE JFC");
             }
-
             return JsonConvert.DeserializeObject<ApiImage[]>(webRequest.downloadHandler.text);
         }
     }
 
-    private async Task<byte[]> GetImage(string url)
+    //private async Task<byte[]> GetFullSizedImage(string id)
+    private async Task<byte[]> GetFullSizedImage(int id)
     {
-        using (var webRequest = new UnityWebRequest(url))
-        {
-            webRequest.method = UnityWebRequest.kHttpVerbGET;
-            webRequest.downloadHandler = new DownloadHandlerBuffer();
-            await webRequest.SendWebRequest();
-            return webRequest.downloadHandler.data;
-        }
-    }
-
-    private async Task<byte[]> GetFullSizedImage(string id)
-    {
-        ApiImage imageInfo;
-        var content = JsonConvert.SerializeObject(new
-        {
-            Id = id
-        });
-
-        using (var webRequest = new UnityWebRequest($"{ImageListUrl}/full"))
+        ApiImage[] imageInfo;
+        var content = JsonConvert.SerializeObject(new {Id = id});
+        using (var webRequest = new UnityWebRequest(ImageListUrl))
+        //using (var webRequest = new UnityWebRequest($"{ImageListUrl}/full"))
         {
             Debug.Log($"Getting full res from: {ImageListUrl}/full"); //I don't know if this is right..?
-            webRequest.method = UnityWebRequest.kHttpVerbPOST;
+            webRequest.method = UnityWebRequest.kHttpVerbGET;
             webRequest.downloadHandler = new DownloadHandlerBuffer();
             webRequest.SetRequestHeader("Content-Type", "application/json");
             webRequest.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(content));
             await webRequest.SendWebRequest();
-            imageInfo = JsonConvert.DeserializeObject<ApiImage>(webRequest.downloadHandler.text);
+            imageInfo = JsonConvert.DeserializeObject<ApiImage[]>(webRequest.downloadHandler.text);
         }
-        return await GetImage(imageInfo.Url);
+        if (id > imageInfo.Length - 1) {
+            id = Random.Range(0, imageInfo.Length);
+        }
+        return await GetImage(imageInfo[id].Url);
     }
 
     int loadedNum;
@@ -232,8 +235,9 @@ public class TexBuilderWill : MonoBehaviour
   async  void DisplayTex(int imgIndex)
     {
         Texture2D bigTex = new Texture2D(1, 1);
-        bigTex.LoadImage(await GetFullSizedImage(FileAddress[imgIndex].Id));
-
+        //bigTex.LoadImage(await GetFullSizedImage(FileAddress[imgIndex].Id));
+        bigTex.LoadImage(await GetFullSizedImage(imgIndex));
+        
 
         imageDisplay.sprite = Sprite.Create(bigTex, new Rect(0.0f, 0.0f, bigTex.width, bigTex.height), new Vector2(0.5f, 0.5f), 100.0f);
         //testRend.material.mainTexture = sourceTextures[imgIndex];
