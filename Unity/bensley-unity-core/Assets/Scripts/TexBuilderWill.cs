@@ -23,7 +23,7 @@ public class TexBuilderWill : MonoBehaviour
     public List<ApiImage> FileAddress = new List<ApiImage>();
     //public List<string> 
     public int ImagesToLoad { get; } = 800;
-
+    [SerializeField] private Sprite tempFullSizedImage;
     public string imgFolderAddress;
     public static bool doneLoad;
     bool playAnimationFwd;
@@ -237,9 +237,10 @@ public class TexBuilderWill : MonoBehaviour
         Texture2D bigTex = new Texture2D(1, 1);
         //bigTex.LoadImage(await GetFullSizedImage(FileAddress[imgIndex].Id));
         bigTex.LoadImage(await GetFullSizedImage(imgIndex));
-        
 
-        imageDisplay.sprite = Sprite.Create(bigTex, new Rect(0.0f, 0.0f, bigTex.width, bigTex.height), new Vector2(0.5f, 0.5f), 100.0f);
+
+        imageDisplay.sprite = tempFullSizedImage;
+        //imageDisplay.sprite = Sprite.Create(bigTex, new Rect(0.0f, 0.0f, bigTex.width, bigTex.height), new Vector2(0.5f, 0.5f), 100.0f);
         //testRend.material.mainTexture = sourceTextures[imgIndex];
 
     }
