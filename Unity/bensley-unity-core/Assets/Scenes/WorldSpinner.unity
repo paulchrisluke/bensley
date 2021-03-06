@@ -21491,7 +21491,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 900a85e5646615b458dc8f7c2bc4cf74, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -27049,8 +27048,9 @@ MonoBehaviour:
   rt: 0
   imgIndex: 0
   cam: {fileID: 0}
+  tempFullSizedImage: {fileID: 21300000, guid: 1076acecde4544ab0a3a193edcaa0e85, type: 3}
   imgFolderAddress: 
-  loadingImg: {fileID: 21300000, guid: 99a2a45e6295b9942978dd6d14635faa, type: 3}
+  loadingImg: {fileID: 21300000, guid: 1076acecde4544ab0a3a193edcaa0e85, type: 3}
   imageDisplay: {fileID: 186689635}
   containerObj: {fileID: 472525641}
   animTime: 0
@@ -43282,7 +43282,6 @@ ParticleSystemRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 900a85e5646615b458dc8f7c2bc4cf74, type: 2}
-  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
